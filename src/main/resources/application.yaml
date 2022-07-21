@@ -1,0 +1,29 @@
+server:
+  port: 8081
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/processed_requests
+    username: postgres
+    password: Andy1964
+  liquibase:
+    change-log: classpath:db.changelog/db.changelog-master.xml
+    url: jdbc:postgresql://localhost:5433/processed_requests
+    user: postgres
+    password: Andy1964
+    driver-class-name: org.postgresql.Driver
+
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:29092
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: analyzerGroup
+      properties:
+        spring.json.trusted.packages: "*"
+

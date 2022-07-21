@@ -1,0 +1,65 @@
+openapi: 3.0.0
+info:
+  title: 'MS Analyzer'
+  description: 'Get request from the Kafka topic, check it, set status and send it into DB "processed_requests"'
+  contact:
+    name: 'Iastrebov Andrei'
+    url: 'https://github.com/yastrebow'
+  version: 1.0-version
+servers:
+  - url: 'http://localhost:8081/'
+    description: 'localhost'
+paths:
+  /requests:
+    post:
+      tags:
+        - processed request
+      summary: Send processed requests into DB
+      operationId: processedRequests
+      description: Send processed request into DB 'requests'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessedRequestDTO'
+        '404':
+          description: No applications present
+
+components:
+  schemas:
+    ProcessedRequestDTO:
+      description: Info about processed requests
+      title: Response
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Request id
+          format: int64
+          example: 123456789
+        name:
+          type: string
+          description: name of author of credit-request
+          example: Сидоров Иван Кузьмич
+        birth_date:
+          type: string
+          format: date
+          description: date of birth in format "YYYY-MM-DD"
+          example: 2001-12-14
+        amount:
+          type: integer
+          description: Amount of credit
+          format: int64
+          example: 1000000
+        term:
+          type: integer
+          description: Term of credit
+          format: int32
+          example: 120
+        status:
+          type: string
+          enum:
+            - approved
+            - not approved
