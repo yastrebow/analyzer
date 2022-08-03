@@ -63,10 +63,11 @@ class AnalyzerServiceImplTest {
     void createProcessedRequest() {
         when(repository.save(checkedRequest)).thenReturn(checkedRequest);
         when(mapper.dtoToEntity(any())).thenReturn(checkedRequest);
+        when(mapper.entityToDto(any())).thenReturn(checkedMessage);
 
         ProcessedRequestDTO createdDto = service.createProcessedRequest(checkedMessage);
 
-        assertEquals(checkedMessage.getStatus().toString().toUpperCase(), checkedRequest.getStatus().toString());
+        assertEquals(createdDto.getStatus().toString().toUpperCase(), checkedRequest.getStatus().toString());
         verify(repository, times(1)).save(checkedRequest);
     }
 
@@ -75,8 +76,10 @@ class AnalyzerServiceImplTest {
         when(mapper.entityToDto(any())).thenReturn(checkedMessage);
 
         service.checkRequest(message);
+
         assertEquals(message.getId(), 1234567890L);
         assertEquals(checkedAge, 22);
+        assertEquals(message.getTerm(), 84);
         assertEquals(checkedMessage.getStatus().toString().toUpperCase(), "APPROVED");
     }
 }
