@@ -8,7 +8,7 @@ import ru.yastrebov.analyzer.model.ProcessedRequest;
 import ru.yastrebov.analyzer.repository.ProcessedRequestRepository;
 import ru.yastrebov.analyzer.service.AnalyzerService;
 import ru.yastrebov.analyzer.model.ProcessedRequestDTO;
-import ru.yastrebov.requestAnalyzerLib.model.RequestDTO;
+import ru.yastrebov.requestAnalyzerLib.model.Request;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -33,7 +33,7 @@ public class AnalyzerServiceImpl implements AnalyzerService {
     }
 
     @Override
-    public void checkRequest(RequestDTO message) {
+    public void checkRequest(Request message) {
         LocalDate birthDay = message.getBirthDate();
         int age = Period.between(birthDay, LocalDate.now()).getYears();
 
